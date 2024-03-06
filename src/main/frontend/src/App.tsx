@@ -15,6 +15,7 @@ function App() {
     const [priority, setPriority] = useState('');
     const [dueDate, setDueDate] = useState('');
 
+    const [objectives, setObjectives] = useState([])
     useEffect(() => {
         // Initialize the datepicker when the component mounts
         $('#datepicker').datepicker({
@@ -40,15 +41,43 @@ function App() {
         }catch (error){
             console.error("Error adding objective")
         }
+        fetchObjectives();
+
+    }
+
+
+    useEffect(() => {
+        fetchObjectives();
+    }, []); // Initial fetch on component mount
+
+    const fetchObjectives = async () => {
+        try {
+            const response = await axios.get("http://localhost:8080/api/todolist");
+            setObjectives(response.data);
+        } catch (error) {
+            console.error("Error fetching from server", error);
+        }
+    };
+
+    console.log(objectives);
+
+
+    async function deleteObjective(id) {
+        try {
+            await axios.delete("http://localhost:8080/api/todolist/" + id)
+        }catch (error){
+            console.error("error deleting objective")
+        }
+        fetchObjectives();
     }
 
     return (
         <>
-            <Card style={{ margin: 0, width: '100%', padding: "0.001em" }}>
+            <Card bg={"dark"} text={"white"} style={{ margin: 0, width: '100%', padding: "0.001em" }}>
                 <Card.Body>
                     <Form style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                         <Container style={{display: "flex", flexDirection: "column"}}>
-                        <Form.Text>Add an Objective!</Form.Text>
+                        <Form.Text style={{color: "white"}}>Add an Objective!</Form.Text>
                         <Form.Control
                             type={'text'}
                             value={description}
@@ -87,6 +116,33 @@ function App() {
                     <Button style={{marginTop: '1em'}} variant={"secondary"} className={"btn-lg"} onClick={handleSubmit}>Submit</Button>
                 </Card.Body>
             </Card>
+
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", marginTop: "2rem" }}>
+                {objectives.map((obj) => (
+                    <div key={obj.id} style={{ flex: "0 0 48%", margin: "0.5rem" }}>
+                        <Card bg={"dark"} text={"white"} style={{ width: "100%" }}>
+                            <Card.Body style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
+                                <Card.Title>
+                                    {obj.description}
+                                </Card.Title>
+                                <Card.Text>
+                                    {obj.priority}
+                                </Card.Text>
+                                <Card.Text>
+                                    {obj.deadline}
+                                </Card.Text>
+                                <div className={"button-icon"} onClick={() => deleteObjective(obj.id)}>
+                                    <i className="bi bi-x"></i>
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                ))}
+            </div>
+
+
+
+
         </>
     );
 }

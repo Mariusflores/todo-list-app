@@ -30,4 +30,10 @@ public class TodoListAppController {
     public void createObjective(@RequestBody ObjectiveRequest objectiveRequest ){
         service.createObjective(objectiveRequest);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteObject(@PathVariable String id){
+        service.deleteObject(id);
+    }
 }

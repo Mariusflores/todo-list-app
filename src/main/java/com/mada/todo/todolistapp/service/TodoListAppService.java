@@ -44,4 +44,8 @@ public class TodoListAppService {
                 .deadline(objective.getDeadline())
                 .build();
     }
+
+    public void deleteObject(String id) {
+        repository.deleteById(id);
+    }
 }
