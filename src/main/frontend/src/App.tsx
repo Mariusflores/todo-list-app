@@ -117,28 +117,31 @@ function App() {
                 </Card.Body>
             </Card>
 
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", marginTop: "2rem" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", maxWidth: "1200px", margin: "auto", marginTop: "2rem" }}>
                 {objectives.map((obj) => (
                     <div key={obj.id} style={{ flex: "0 0 48%", margin: "0.5rem" }}>
-                        <Card bg={"dark"} text={"white"} style={{ width: "100%" }}>
-                            <Card.Body style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
-                                <Card.Title>
-                                    {obj.description}
-                                </Card.Title>
-                                <Card.Text>
-                                    {obj.priority}
-                                </Card.Text>
-                                <Card.Text>
-                                    {obj.deadline}
-                                </Card.Text>
-                                <div className={"button-icon"} onClick={() => deleteObjective(obj.id)}>
-                                    <i className="bi bi-x"></i>
-                                </div>
-                            </Card.Body>
-                        </Card>
+                        <Container>
+                            <Card bg={"dark"} text={"white"} style={{ width: "100%" }}>
+                                <Card.Body style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
+                                    <Card.Title>
+                                        {obj.description}
+                                    </Card.Title>
+                                    <Card.Text>
+                                        {obj.priority}
+                                    </Card.Text>
+                                    <Card.Text>
+                                        {obj.deadline}
+                                    </Card.Text>
+                                    <div className={"button-icon"} onClick={() => deleteObjective(obj.id)}>
+                                        <i className="bi bi-x"></i>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Container>
                     </div>
                 ))}
             </div>
+
 
 
 
